@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+      html,body{
+        height: 100%;
+      }
+      #container{
+        width: 100%;
+        height: 100%;
+      }
+    </style>
+</head>
+<body>
+    <script src="https://gw.alipayobjects.com/os/antv/pkg/_antv.g6-3.4.7/dist/g6.min.js"></script>
+    <div id="container"></div>
+    <script>
+      const data = {
+    id: 'realm',
+    children: []
+};
+const bigset = new Set();
+const objects = [
+    eval,
+    isFinite,
+    isNaN,
+    parseFloat,
+    parseInt,
+    decodeURI,
+    decodeURIComponent,
+    encodeURI,
+    encodeURIComponent,
+    Array,
+    Date,
+    RegExp,
+    Promise,
+    Proxy,
+    Map,
+    WeakMap,
+    Set,
+    WeakSet,
+    Function,
+    Boolean,
+    String,
+    Number,
+    Symbol,
+    Object,
+    Error,
+    EvalError,
+    RangeError,
+    ReferenceError,
+    SyntaxError,
+    TypeError,
+    URIError,
+    ArrayBuffer,
+    SharedArrayBuffer,
+    DataView,
+    Float32Array,
+    Float64Array,
+    Int8Array,
+    Int16Array,
+    Int32Array,
+    Uint8Array,
+    Uint16Array,
+    Uint32Array,
+    Uint8ClampedArray,
+    Atomics,
+    JSON,
+    Math,
+    Reflect];
+    objects.forEach(o => bigset.add(o));
+    let i = 0;
+    while (i< objects.length) {
+        let o = objects[i];
+        let set = new Set();
+        let setData = [];
+        for(let p of Object.getOwnPropertyNames(o)) {
+            let d = Object.getOwnPropertyDescriptor(o,p);
+            // console.log(d);
+            if((d.value !== null && typeof d.value === 'object') || (typeof d.value === 'function')) {
+                if(!bigset.has(d.value)){
+                    bigset.add(d.value);
+                    set.add(d.value);
+                    // objects.push(d.value)
+                }
+            }
+
+            if(d.get) {
+                if(!bigset.has(d.get)) {
+                    set.add(d.get);
+                    bigset.add(d.get);
+                    // objects.push(d.get)
+                }
+            }
+
+            if(d.set) {
+                if(!bigset.has(d.set)) {
+                    set.add(d.set);
+                    bigset.add(d.set);
+                    // objects.push(d.set)
+                }
+            }
+        }
+        console.log(set);
+        for(let s of set) {
+            console.log(s);
+            setData.push({
+                id: s.name
+            })
+        }
+        i++;
+        // console.log(setData);
+        data.children.push({
+          id: o.name || o,
+          children: setData
+        });
+    }
+    console.log(data);
+    const width = document.getElementById('container').scrollWidth;
+    const height = document.getElementById('container').scrollHeight || 500;
+    const graph = new G6.TreeGraph({
+      container: 'container',
+      width,
+      height,
+      modes: {
+        default: [
+          {
+            type: 'collapse-expand',
+            onChange: function onChange(item, collapsed) {
+              const data = item.get('model').data;
+              data.collapsed = collapsed;
+              return true;
+            },
+          },
+          'drag-canvas',
+          'zoom-canvas',
+        ],
+      },
+      defaultNode: {
+        size: 26,
+        anchorPoints: [
+          [0, 0.5],
+          [1, 0.5],
+        ],
+        style: {
+          fill: '#C6E5FF',
+          stroke: '#5B8FF9',
+        },
+      },
+      defaultEdge: {
+        type: 'cubic-horizontal',
+        style: {
+          stroke: '#A3B1BF',
+        },
+      },
+      layout: {
+        type: 'mindmap',
+        direction: 'H',
+        getHeight: () => {
+          return 16;
+        },
+        getWidth: () => {
+          return 16;
+        },
+        getVGap: () => {
+          return 10;
+        },
+        getHGap: () => {
+          return 50;
+        },
+      },
+    });
+
+    let centerX = 0;
+    graph.node(function(node) {
+      if (node.id === 'Modeling Methods') {
+        centerX = node.x;
+      }
+
+      return {
+        label: node.id,
+        labelCfg: {
+          position:
+            node.children && node.children.length > 0
+              ? 'left'
+              : node.x > centerX
+              ? 'right'
+              : 'left',
+          offset: 5,
+        },
+      };
+    });
+
+    graph.data(data);
+    graph.render();
+    graph.fitView();
+    </script>
+</body>
+</html>

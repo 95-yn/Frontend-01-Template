@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #board {
+            width: 350px;
+        }
+
+        .cell {
+            width: 100px;
+            height: 100px;
+            background: green;
+            display: inline-block;
+            border: solid 1px #fff;
+            vertical-align: middle;
+            text-align: center;
+            line-height: 100px;
+            font-size: 30px;
+            color: red;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="board"></div>
+    <script>
+        let members = {
+            1: 'x',
+            2: 'o'
+        }
+        let pattern = [
+            [2, 2, 0],
+            [0, 1, 1],
+            [0, 0, 0],
+        ];
+        let color = 1;
+        let borad = document.getElementById('board');
+
+        function show() {
+            borad.innerHTML = '';
+            for (let i = 0; i < pattern.length; i++) {
+                for (let j = 0; j < pattern[i].length; j++) {
+                    let cell = document.createElement('div');
+                    cell.classList.add('cell');
+                    cell.innerText = pattern[i][j] === 2 ? 'o' :
+                        pattern[i][j] === 1 ? 'x' :
+                        '';
+                    cell.addEventListener('click', () => move(j, i));
+                    borad.append(cell);
+                }
+            }
+        }
+
+        function move(x, y) {
+            if (pattern[y][x] !== 0) {
+                return;
+            }
+            pattern[y][x] = color;
+            if(check()) {
+                alert(`${members[color]} is winner`);
+                reset();
+                show();
+                return;
+            }
+            color = 3 - color;
+            show();
+        }
+
+        function check() {
+            for( let i = 0 ; i < pattern.length; i++) {
+                {let win = true;
+                for(let j = 0; j < pattern[i].length; j++) {
+                    console.log(pattern[i][j], color);
+                    if(pattern[j][i] !== color) {
+                        win = false;
+                        break;
+                    }
+                }
+                if(win) {
+                    return true;
+                }}
+                {let win = true;
+                for(let j = 0; j < pattern[i].length; j++) {
+                    
+                    if(pattern[i][j] !== color) {
+                        win = false;
+                        break;
+                    }
+                }
+                if(win) {
+                    return true;
+                }}
+                for(let j = 0; j < pattern[i].length; j++) {
+                    if(pattern[j][j] !== color) {
+                        win = false;
+                        break;
+                    }
+                }
+                for(let j = 0; j < pattern[i].length; j++) {
+                    if(pattern[j][2-j] !== color) {
+                        win = false;
+                        break;
+                    }
+                }
+                
+            }
+            return false;
+        }
+
+        function clone(pattern) {
+            return JSON.parse(JSON.stringify(pattern));
+        }
+        function willWin() {
+
+            for (let i = 0; i < pattern.length; i++) {
+                for (let j = 0; j < pattern[i].length; j++) {
+                    if(pattern[i][j] !== 0) {
+                        continue;
+                    }
+                    let tmp = clone(pattern);
+                    tmp[i][j] = color;
+                    if(check()) {
+                        return true;
+                    }
+                }
+            }
+        }
+        function reset(){
+            pattern = [
+                [2, 2, 0],
+                [0, 1, 1],
+                [0, 0, 0],
+            ];
+            color = 1;
+        }   
+    show();
+    </script>
+</body>
+
+</html>

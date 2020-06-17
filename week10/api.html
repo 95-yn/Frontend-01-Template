@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>api</title>
+</head>
+
+<body>
+    <script>
+        let names = Object.getOwnPropertyNames(window);
+        // ECMA262 
+        {
+            let objs = [
+                "Object",
+                "Function",
+                "Array",
+                "Number",
+                "parseFloat",
+                "parseInt",
+                "Infinity",
+                "NaN",
+                "undefined",
+                "Boolean",
+                "String",
+                "Symbol",
+                "Date",
+                "Promise",
+                "RegExp",
+                "Error",
+                "EvalError",
+                "RangeError",
+                "ReferenceError",
+                "SyntaxError",
+                "TypeError",
+                "URIError",
+                "globalThis",
+                "JSON",
+                "Math",
+                "console",
+                "Intl",
+                "ArrayBuffer",
+                "Uint8Array",
+                "Int8Array",
+                "Uint16Array",
+                "Int16Array",
+                "Uint32Array",
+                "Int32Array",
+                "Float32Array",
+                "Float64Array",
+                "Uint8ClampedArray",
+                "BigUint64Array",
+                "BigInt64Array",
+                "DataView",
+                "Map",
+                "BigInt",
+                "Set",
+                "WeakMap",
+                "WeakSet",
+                "Proxy",
+                "Reflect",
+                "decodeURI",
+                "decodeURIComponent",
+                "encodeURI",
+                "encodeURIComponent",
+                "escape",
+                "unescape",
+                "eval",
+                "isFinite",
+                "isNaN"];
+            let js = new Set();
+            objs.forEach(o => js.add(o));
+            names = names.filter(e => !js.has(e));
+        }
+
+        {
+            let objs = ["WebGLVertexArrayObject",
+                "WebGLUniformLocation",
+                "WebGLTransformFeedback",
+                "WebGLTexture",
+                "WebGLSync",
+                "WebGLShaderPrecisionFormat",
+                "WebGLShader",
+                "WebGLSampler",
+                "WebGLRenderingContext",
+                "WebGLRenderbuffer",
+                "WebGLQuery",
+                "WebGLProgram",
+                "WebGLFramebuffer",
+                "WebGLContextEvent",
+                "WebGLBuffer",
+                "WebGLActiveInfo",
+                "WebGL2RenderingContext"];
+            let webjl = new Set();
+            objs.forEach(o => webjl.add(o));
+            names = names.filter(e => !webjl.has(e));
+        }
+        // svg
+        {
+            let objects = ["SVGViewElement",
+                "SVGUseElement",
+                "SVGUnitTypes",
+                "SVGTransformList",
+                "SVGTransform",
+                "SVGTitleElement",
+                "SVGTextPositioningElement",
+                "SVGTextPathElement",
+                "SVGTextElement",
+                "SVGTextContentElement",
+                "SVGTSpanElement",
+                "SVGSymbolElement",
+                "SVGSwitchElement",
+                "SVGStyleElement",
+                "SVGStringList",
+                "SVGStopElement",
+                "SVGSetElement",
+                "SVGScriptElement",
+                "SVGSVGElement",
+                "SVGRectElement",
+                "SVGRect",
+                "SVGRadialGradientElement",
+                "SVGPreserveAspectRatio",
+                "SVGPolylineElement",
+                "SVGPolygonElement",
+                "SVGPointList",
+                "SVGPoint",
+                "SVGPatternElement",
+                "SVGPathElement",
+                "SVGNumberList",
+                "SVGNumber",
+                "SVGMetadataElement",
+                "SVGMatrix",
+                "SVGMaskElement",
+                "SVGMarkerElement",
+                "SVGMPathElement",
+                "SVGLinearGradientElement",
+                "SVGLineElement",
+                "SVGLengthList",
+                "SVGLength",
+                "SVGImageElement",
+                "SVGGraphicsElement",
+                "SVGGradientElement",
+                "SVGGeometryElement",
+                "SVGGElement",
+                "SVGForeignObjectElement",
+                "SVGFilterElement",
+                "SVGFETurbulenceElement",
+                "SVGFETileElement",
+                "SVGFESpotLightElement",
+                "SVGFESpecularLightingElement",
+                "SVGFEPointLightElement",
+                "SVGFEOffsetElement",
+                "SVGFEMorphologyElement",
+                "SVGFEMergeNodeElement",
+                "SVGFEMergeElement",
+                "SVGFEImageElement",
+                "SVGFEGaussianBlurElement",
+                "SVGFEFuncRElement",
+                "SVGFEFuncGElement",
+                "SVGFEFuncBElement",
+                "SVGFEFuncAElement",
+                "SVGFEFloodElement",
+                "SVGFEDropShadowElement",
+                "SVGFEDistantLightElement",
+                "SVGFEDisplacementMapElement",
+                "SVGFEDiffuseLightingElement",
+                "SVGFEConvolveMatrixElement",
+                "SVGFECompositeElement",
+                "SVGFEComponentTransferElement",
+                "SVGFEColorMatrixElement",
+                "SVGFEBlendElement",
+                "SVGEllipseElement",
+                "SVGElement",
+                "SVGDescElement",
+                "SVGDefsElement",
+                "SVGComponentTransferFunctionElement",
+                "SVGClipPathElement",
+                "SVGCircleElement",
+                "SVGAnimationElement",
+                "SVGAnimatedTransformList",
+                "SVGAnimatedString",
+                "SVGAnimatedRect",
+                "SVGAnimatedPreserveAspectRatio",
+                "SVGAnimatedNumberList",
+                "SVGAnimatedNumber",
+                "SVGAnimatedLengthList",
+                "SVGAnimatedLength",
+                "SVGAnimatedInteger",
+                "SVGAnimatedEnumeration",
+                "SVGAnimatedBoolean",
+                "SVGAnimatedAngle",
+                "SVGAnimateTransformElement",
+                "SVGAnimateMotionElement",
+                "SVGAnimateElement",
+                "SVGAngle",
+                "SVGAElement"]
+            names = names.filter(e => !~objects.indexOf(e))
+        }
+
+        // canvas
+        {
+            let objects = ["CanvasRenderingContext2D",
+                "CanvasPattern",
+                "CanvasGradient",
+                "CanvasCaptureMediaStreamTrack",]
+            names = names.filter(e => !~objects.indexOf(e))
+        }
+        // DOM 
+        {
+            let objects = ["Event", "CustomEvent", "EventTarget", "AbortController", "AbortSignal", "NodeList", "HTMLCollection", "MutationObserver", "MutationRecord", "Node", "Document", "DOMImplementation", "DocumentType", "DocumentFragment", "ShadowRoot", "Element", "NamedNodeMap", "Attr", "CharacterData", "Text", "CDATASection", "ProcessingInstruction", "Comment", "StaticRange", "Range", "NodeIterator", "TreeWalker", "NodeFilter", "DOMTokenList", "XPathResult", "XPathExpression", "XPathEvaluator", "Window", "XMLDocument", "TouchEvent"]
+            names = names.filter(e => !~objects.indexOf(e))
+        }
+        // css
+        // https://drafts.css-houdini.org/css-typed-om-1/#dom-cssvariablereferencevalue-cssvariablereferencevalue
+        {
+            let objects = ["CSSVariableReferenceValue",
+                "CSSUnparsedValue",
+                "CSSUnitValue",
+                "CSSTranslate",
+                "CSSTransformValue",
+                "CSSTransformComponent",
+                "CSSSupportsRule",
+                "CSSStyleValue",
+                "CSSStyleSheet",
+                "CSSStyleRule",
+                "CSSStyleDeclaration",
+                "CSSSkewY",
+                "CSSSkewX",
+                "CSSSkew",
+                "CSSScale",
+                "CSSRuleList",
+                "CSSRule",
+                "CSSRotate",
+                "CSSPositionValue",
+                "CSSPerspective",
+                "CSSPageRule",
+                "CSSNumericValue",
+                "CSSNumericArray",
+                "CSSNamespaceRule",
+                "CSSMediaRule",
+                "CSSMatrixComponent",
+                "CSSMathValue",
+                "CSSMathSum",
+                "CSSMathProduct",
+                "CSSMathNegate",
+                "CSSMathMin",
+                "CSSMathMax",
+                "CSSMathInvert",
+                "CSSKeywordValue",
+                "CSSKeyframesRule",
+                "CSSKeyframeRule",
+                "CSSImportRule",
+                "CSSImageValue",
+                "CSSGroupingRule",
+                "CSSFontFaceRule",
+                "CSS",
+                "CSSConditionRule"]
+            names = names.filter(e => !~objects.indexOf(e))
+        }
+
+
+        console.log(names);
+    </script>
+</body>
+
+</html>

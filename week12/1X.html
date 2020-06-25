@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>可选的作业：把正则风格的tokenize换成状态机</title>
+</head>
+
+<body>
+    <script>
+        var reg = /([0-9\.]+)|([ ]+)|([\r\n]+)|(\+)|(\-)|(\*)|(\/)/g;
+        var dictionary = ['Number', 'Whitespace', 'LineTerminator', '+', '-', '*', '/'];
+
+        function* tokenize(source) {
+            let result = null;
+            let lastIndex = 0;
+            do {
+                lastIndex = reg.lastIndex;
+                // console.log(reg);
+                // console.log(reg.lastIndex);
+                result = reg.exec(source);
+                // console.log(result);
+                if (!result) {
+                    break;
+                }
+                if (reg.lastIndex - lastIndex > result[0].length) {
+                    throw new Error(`Unexpected token: ${source.slice(lastIndex, reg.lastIndex - result[0].length)}!`);
+                }
+                let token = {
+                    type: null,
+                    value: null
+                };
+                for (let i = 0; i < dictionary.length; i++) {
+                    if (result[i + 1]) {
+                        // console.log(dictionary[i]);
+                        token.type = dictionary[i];
+                    }
+                }
+                token.value = result[0];
+                yield token;
+
+            } while (result);
+            yield {
+                type: "EOF"
+            }
+        }
+
+        function Expressioin(source) {
+            if(source[0].type === 'AdditiveExpression' && source[1].type ==='EOF') {
+                let node = {
+                    type: 'Expression',
+                    children: [source.shift(),source.shift()]
+                }
+                source.unshift(node);
+                return node;
+            }
+            AdditiveExpression(source);
+            return Expressioin(source)
+        }
+        function AdditiveExpression(source) {
+            if (source[0].type === 'Number') {
+                MulitlpicativeExpression(source);
+                return AdditiveExpression(source);
+            }
+            if (source[0].type === 'MulitlpicativeExpression') {
+                let node = {
+                    type: 'AdditiveExpression',
+                    children: [source.shift()]
+                }
+                source.unshift(node);
+                return AdditiveExpression(source);
+
+            }
+            if (source[0].type === 'AdditiveExpression' && source.length > 1 && source[1].type === '+') {
+                let node = {
+                    type: 'AdditiveExpression',
+                    children: [source.shift(), source.shift()]
+                }
+                MulitlpicativeExpression(source);
+                node.children.push(source.shift());
+                source.unshift(node);
+                return AdditiveExpression(source);
+            }
+            if (source[0].type === 'AdditiveExpression' && source.length > 1 && source[1].type === '-') {
+                let node = {
+                    type: 'AdditiveExpression',
+                    children: [source.shift(), source.shift()]
+                }
+                MulitlpicativeExpression(source);
+                node.children.push(source.shift());
+                source.unshift(node);
+                return AdditiveExpression(source);
+            }
+            return source[0];
+        }
+        function MulitlpicativeExpression(source) {
+            if (source[0].type === 'Number') {
+                let node = {
+                    type: 'MulitlpicativeExpression',
+                    children: source.shift()
+                }
+                source.unshift(node);
+                return MulitlpicativeExpression(source);
+            }
+            if (source[0].type === 'MulitlpicativeExpression' && source.length > 1 && source[1].type === '*') {
+                let node = {
+                    type: 'MulitlpicativeExpression',
+                    children: [source.shift(), source.shift(), source.shift()]
+                }
+                source.unshift(node);
+                return MulitlpicativeExpression(source);
+            }
+            if (source[0].type === 'MulitlpicativeExpression' && source.length > 1 && source[1].type === '/') {
+                let node = {
+                    type: 'MulitlpicativeExpression',
+                    children: [source.shift(), source.shift(), source.shift()]
+                }
+                source.unshift(node);
+                return MulitlpicativeExpression(source);
+            }
+            // console.log(source);
+            return source[0];
+
+
+
+        }
+        let source = [];
+        for (let token of tokenize("1024 +2+ 1 * 2 /2")) {
+            // 调用生成器，获取迭代器
+            if (token.type !== 'Whitespace' && token.type !== 'LineTerminator') {
+                source.push(token);
+            }
+
+        }
+
+        console.log(Expressioin(source));
+    </script>
+</body>
+
+</html>

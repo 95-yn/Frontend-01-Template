@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>kmp</title>
+</head>
+
+<body>
+    <script>
+        // O(mn)
+        /* function find(source, pattern) {
+            for (let i = 0; i < source.length; i++) {
+                let matched = true;
+                for (let j = 0; j < pattern.length; j++) {
+                    if (source[i + j] !== pattern[j]) {
+                        matched = false;
+                        break;
+                    }
+                }
+                if (matched) {
+                    return true;
+                }
+            }
+            return false;
+        } */
+
+        // function find(source, pattern) {
+        //     let j = 0;
+        //     let table = new Array(pattern.length).fill(0);
+        //     let k =0;
+        //     for(let i =1;i<pattern.length;i++) {
+        //         if(pattern[i] === pattern[k]) {
+        //             k++;
+        //             table[i] = k;
+        //         } else {
+        //             k=0;
+        //         }
+        //         console.log(table);
+                
+
+        //     }
+        //     console.log(table)
+        //     for (let i = 0; i < source.length; i++) {
+        //         console.log(source[i], pattern[j])
+        //         if(source[i] === pattern[j]){
+        //             j++
+        //         }
+        //         //  else if(source[i+1] !== pattern[j]){
+        //         //     j = table[j]
+        //         // }
+        //         else{
+        //             while(source[i] !== pattern[j] && j> 0) {
+        //                 j = table[j-1];
+        //             }
+        //             if(source[i] === pattern[j]) {
+        //                 j++
+        //             } else {
+        //                 j = 0;
+        //             }
+                    
+        //         }
+
+                
+        //         if(j === pattern.length) {
+        //             return true;
+        //         }
+        //     }
+        //     return false;
+        // }
+        function find(source,pattern) {
+            let j =0;
+        }
+       console.log( find('abcabxabcabc','abcabx'))
+;    </script>
+</body>
+
+</html>

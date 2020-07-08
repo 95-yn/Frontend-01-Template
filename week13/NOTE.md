@@ -1,5 +1,5 @@
 # 每周总结可以写在这里
 
-[拖拽]](./index.html)
+[拖拽](./2.html)
 
-[reactive](./2.html)
+[reactive](./index.html)

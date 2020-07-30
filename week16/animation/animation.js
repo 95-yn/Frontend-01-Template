@@ -23,16 +23,20 @@ export class Timeline {
           
     
           let progression = timingFunction((t-delay-startTime)/duration); // 0~1之间的整数
+          if(t < delay+startTime) {
+            continue;
+          }
           if (t > duration + delay + startTime) {
             progression = 1;
             animation.finished = true;
           }
+          
           let value =animation.valueFromProgression(progression); //value是当前值
-          console.log(template);
-          console.log(template(value));
+          // console.log('progression',progression);
+          // console.log(template(value));
           object[property] = template(value);
         }
-        if(animations.length)
+        if(true||animations.length)
             this.requestID = requestAnimationFrame(this.tick);
       }
   }
@@ -81,7 +85,6 @@ export class Timeline {
   }
 
   add(animation, startTime) {
-    debugger
     this.animations.push(animation);
     animation.finished = false;
     if(this.state === 'playing')

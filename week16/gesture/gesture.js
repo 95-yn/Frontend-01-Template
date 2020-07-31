@@ -1,6 +1,6 @@
 // enableGesture(document.body);
-// export function enableGesture(element) {
-function enableGesture(element) {
+export function enableGesture(element) {
+// function enableGesture(element) {
 
     let contexts = Object.create(null);
 
@@ -64,7 +64,7 @@ function enableGesture(element) {
             clientX: point.clientX,
             clientY: point.clientY,
         });
-        // element.dispatchEvent(event);
+        element.dispatchEvent(event);
         context.startX = point.clientX;
         context.startY = point.clientY;
         context.isTap = true;
@@ -93,18 +93,16 @@ function enableGesture(element) {
     }
     
     let move = (point, context) => {
-        let dx = point.clientX - context.startX, dy = point.clientY - context.startY;
-        debugger
-        console.log(dy);
+        let dx = point.clientX - context.startX, dy = point.clientY - context.startY;console.log(dy);
         if(dx**2 + dy** 2 > 100 && !context.isPan) {
-            console.log(1);
+            // console.log(1);
             if(context.isPress) {
                 element.dispatchEvent(new CustomEvent('presscancel', {}));
             }
             context.isTap = false;
             context.isPan = true;
             context.isPress = false;
-            console.log(context);
+            // console.log(context);
             element.dispatchEvent(new CustomEvent('panstart', {
                 startX: context.startX,
                 startY: context.startY,
@@ -118,7 +116,6 @@ function enableGesture(element) {
         });
         // console.log(context);
         if(context.isPan) {
-            console.log()
             context.moves.push({
                 dx,dy,t:Date.now()
             });
@@ -130,8 +127,8 @@ function enableGesture(element) {
                 clientX: point.clientX,
                 clientY: point.clientY
             });
-            console.log(e,context);
             element.dispatchEvent(e);
+            console.log('dispatch   pan')
         }
     
     }

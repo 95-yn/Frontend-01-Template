@@ -59,8 +59,7 @@ const server = http.createServer((req, res) => {
 
     response.on('end', () => {
       console.log(body);
-      let user = JSON.parse(body);
-      // fileSys(user);
+      
       let writeStream = unzip.Extract({
         path: '../server/public/package'
       });

@@ -14,80 +14,42 @@ const server = http.createServer((request, response) => {
     return;
   }
   const token = request.url.match(/token=([^&]+)/)[1];
-  console.log(token);
+  
+fs.stat(packageName, (err,stat) => {
+  console.log(stat.size);
   const options = {
-    // hostname: '120.79.181.194',
-    hostname: 'localhost',
-    port: 8081,
-    path: '/upload/?filename=' + packageName + '.zip',
-    method: 'POST',
-    headers: {
-      token: token,
-      'Content-Type': 'application/x-www-form-urlencoded',
-    }
-  };
-
-  const archive = archiver('zip', {
-    zlib: {
-      level: 9
-    }
-  });
-
-  archive.directory(packageName,false);
-
-  archive.finalize();
+      hostname: 'localhost',
+      port: 8081,
+      path: '/upload/?filename=' + packageName + '.zip',
+      method: 'POST',
+      headers: {
+        token: token,
+        'Content-Type': 'application/x-www-form-urlencoded',
+      }
+    };
 
   const req = http.request(options, (res) => {
-    console.log(`STATUS: ${res.statusCode}`);
-    console.log(`HEADERS: ${JSON.stringify(res.headers)}`);
-  });
+  console.log(`STATUS: ${res.statusCode}`);
+  console.log(`HEADERS: ${JSON.stringify(res.headers)}`);
+});
 
-  archive.pipe(req);
+var archive = archiver('zip', {
+  zlib: {
+    level: 9
+  }
+});
+archive.directory(packageName,false);
 
-  archive.on('end', () => {
-    req.end();
-    console.log('publish success!!!');
-    req.end('publish success!!!');
-    server.close();
-  });
+archive.finalize();
+archive.pipe(req);
 
-  req.on('error', e => {
-    console.error(e.message);
-  });
+archive.on('end', () => {
+  req.end()
+});
+});
 
 
 })
 
 
 server.listen(8080);
-// fs.stat(packageName, (err,stat) => {
-//     console.log(stat.size);
-//     const options = {
-//         hostname: '120.79.181.194',
-//         port: 80,
-//         path: '/upload/?filename=' + packageName + '.zip',
-//         method: 'POST',
-//         headers: {
-//           'Content-Type': 'application/x-www-form-urlencoded',
-//         }
-//       };
-
-//     const req = http.request(options, (res) => {
-//     console.log(`STATUS: ${res.statusCode}`);
-//     console.log(`HEADERS: ${JSON.stringify(res.headers)}`);
-//   });
-  
-//   var archive = archiver('zip', {
-//     zlib: {
-//       level: 9
-//     }
-//   });
-//   archive.directory(packageName,false);
-
-//   archive.finalize();
-//   archive.pipe(req);
-
-//   archive.on('end', () => {
-//     req.end();
-//   });
-// });
